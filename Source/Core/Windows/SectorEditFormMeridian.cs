@@ -194,7 +194,8 @@ namespace CodeImp.DoomBuilder.Windows
 					// Only valid if there are 3 items in floor/ceil slope vert (position) list.
 					if (floorvt.Count == 3)
 					{
-						if (Math.Round(floorvt[0].x) == V.Position.x && Math.Round(floorvt[0].y) == V.Position.y)
+						if (Math.Round(floorvt[0].x) == Math.Round(V.Position.x)
+							&& Math.Round(floorvt[0].y) == Math.Round(V.Position.y))
 						{
 							// // Used to get height from plane.
 							//floorvert1height.Text = Math.Round(Sector.GetFloorPlane(sc).GetZ(V.Position)).ToString();
@@ -202,12 +203,14 @@ namespace CodeImp.DoomBuilder.Windows
 							// Select this vertex index.
 							floorvert1.SelectedItem = V.Index;
 						}
-						if (Math.Round(floorvt[1].x) == V.Position.x && Math.Round(floorvt[1].y) == V.Position.y)
+						if (Math.Round(floorvt[1].x) == Math.Round(V.Position.x)
+							&& Math.Round(floorvt[1].y) == Math.Round(V.Position.y))
 						{
 							floorvert2height.Text = floorvt[1].z.ToString();
 							floorvert2.SelectedItem = V.Index;
 						}
-						if (Math.Round(floorvt[2].x) == V.Position.x && Math.Round(floorvt[2].y) == V.Position.y)
+						if (Math.Round(floorvt[2].x) == Math.Round(V.Position.x)
+							&& Math.Round(floorvt[2].y) == Math.Round(V.Position.y))
 						{
 							floorvert3height.Text = floorvt[2].z.ToString();
 							floorvert3.SelectedItem = V.Index;
@@ -215,19 +218,22 @@ namespace CodeImp.DoomBuilder.Windows
 					}
 					if (ceilvt.Count == 3)
 					{
-						if (Math.Round(ceilvt[0].x) == V.Position.x && Math.Round(ceilvt[0].y) == V.Position.y)
+						if (Math.Round(ceilvt[0].x) == Math.Round(V.Position.x)
+							&& Math.Round(ceilvt[0].y) == Math.Round(V.Position.y))
 						{
 							// Used to get height from plane.
 							//ceilvert1height.Text = Math.Round(Sector.GetCeilingPlane(sc).GetZ(V.Position)).ToString();
 							ceilvert1height.Text = ceilvt[0].z.ToString();
 							ceilvert1.SelectedItem = V.Index;
 						}
-						if (Math.Round(ceilvt[1].x) == V.Position.x && Math.Round(ceilvt[1].y) == V.Position.y)
+						if (Math.Round(ceilvt[1].x) == Math.Round(V.Position.x)
+							&& Math.Round(ceilvt[1].y) == Math.Round(V.Position.y))
 						{
 							ceilvert2height.Text = ceilvt[1].z.ToString();
 							ceilvert2.SelectedItem = V.Index;
 						}
-						if (Math.Round(ceilvt[2].x) == V.Position.x && Math.Round(ceilvt[2].y) == V.Position.y)
+						if (Math.Round(ceilvt[2].x) == Math.Round(V.Position.x)
+							&& Math.Round(ceilvt[2].y) == Math.Round(V.Position.y))
 						{
 							ceilvert3height.Text = ceilvt[2].z.ToString();
 							ceilvert3.SelectedItem = V.Index;

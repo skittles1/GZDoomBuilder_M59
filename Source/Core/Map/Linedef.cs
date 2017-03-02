@@ -463,6 +463,30 @@ namespace CodeImp.DoomBuilder.Map
 			if(back != null) back.Sector.UpdateNeeded = true;
 		}
 		
+		/// <summary>
+		/// M59 override, lets our sectors know to update their vertex
+		/// references with the gives positions.
+		/// </summary>
+		/// <param name="oldpos"></param>
+		/// <param name="newpos"></param>
+		public void NeedUpdate(Vector2D oldpos, Vector2D newpos)
+		{
+			// Update this line
+			updateneeded = true;
+
+			// Update sectors as well
+			if (front != null)
+			{
+				front.Sector.UpdateNeeded = true;
+				front.Sector.UpdateVertexReference(oldpos, newpos);
+			}
+			if (back != null)
+			{
+				back.Sector.UpdateNeeded = true;
+				back.Sector.UpdateVertexReference(oldpos, newpos);
+			}
+		}
+
 		// This translates the flags and activations into UDMF fields
 		internal void TranslateToUDMF(Type previousmapformatinterfacetype)
 		{

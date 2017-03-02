@@ -375,7 +375,40 @@ namespace CodeImp.DoomBuilder.Map
 			updateneeded = true;
 			triangulationneeded = true;
 		}
-		
+
+		/// <summary>
+		/// Updates Meridian 59 slope vertex references when a vertex moves.
+		/// </summary>
+		/// <param name="oldpos"></param>
+		/// <param name="newpos"></param>
+		public void UpdateVertexReference(Vector2D oldpos, Vector2D newpos)
+		{
+			if (floorslopevertexes.Count == 3)
+			{
+				for (int i = 0; i < 3; ++i)
+				{
+					if (Math.Abs(Math.Abs(floorslopevertexes[i].x) - Math.Abs(oldpos.x)) < 2.0f
+						&& Math.Abs(Math.Abs(floorslopevertexes[i].y) - Math.Abs(oldpos.y)) < 2.0f)
+					{
+						floorslopevertexes[i] = new Vector3D(newpos.x, newpos.y, floorslopevertexes[i].z);
+					}
+				}
+				CalculateMeridianSlope(true);
+			}
+			if (ceilslopevertexes.Count == 3)
+			{
+				for (int i = 0; i < 3; ++i)
+				{
+					if (Math.Abs(Math.Abs(ceilslopevertexes[i].x) - Math.Abs(oldpos.x)) < 2.0f
+						&& Math.Abs(Math.Abs(ceilslopevertexes[i].y) - Math.Abs(oldpos.y)) < 2.0f)
+					{
+						ceilslopevertexes[i] = new Vector3D(newpos.x, newpos.y, ceilslopevertexes[i].z);
+					}
+				}
+				CalculateMeridianSlope(false);
+			}
+		}
+
 		// This copies all properties to another sector
 		public void CopyPropertiesTo(Sector s)
 		{

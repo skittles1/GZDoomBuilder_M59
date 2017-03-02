@@ -260,6 +260,7 @@ namespace CodeImp.DoomBuilder.Map
 				BeforePropsChange();
 				
 				// Change position
+				Vector2D oldpos = pos;
 				pos = newpos;
 
 				#if DEBUG
@@ -271,7 +272,7 @@ namespace CodeImp.DoomBuilder.Map
 				#endif
 
 				// Let all lines know they need an update
-				foreach(Linedef l in linedefs) l.NeedUpdate();
+				foreach (Linedef l in linedefs) l.NeedUpdate(oldpos, pos);
 				General.Map.IsChanged = true;
 			}
 		}
