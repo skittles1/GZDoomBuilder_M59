@@ -56,6 +56,8 @@ namespace CodeImp.DoomBuilder.Windows
 			this.flatSelectorControl2 = new CodeImp.DoomBuilder.Controls.FlatSelectorControl();
 			this.flatSelectorControl1 = new CodeImp.DoomBuilder.Controls.FlatSelectorControl();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.movementbox = new System.Windows.Forms.GroupBox();
+			this.noMoveBox = new System.Windows.Forms.CheckBox();
 			this.slopebox = new System.Windows.Forms.GroupBox();
 			this.floorvert1 = new System.Windows.Forms.ComboBox();
 			this.floorvert1height = new CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox();
@@ -116,6 +118,7 @@ namespace CodeImp.DoomBuilder.Windows
 			label10 = new System.Windows.Forms.Label();
 			groupfloorceiling.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.movementbox.SuspendLayout();
 			this.slopebox.SuspendLayout();
 			this.depthbox.SuspendLayout();
 			this.Scrolling.SuspendLayout();
@@ -446,6 +449,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.Window;
+			this.panel1.Controls.Add(this.movementbox);
 			this.panel1.Controls.Add(this.slopebox);
 			this.panel1.Controls.Add(this.depthbox);
 			this.panel1.Controls.Add(this.Scrolling);
@@ -455,6 +459,27 @@ namespace CodeImp.DoomBuilder.Windows
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(761, 443);
 			this.panel1.TabIndex = 3;
+			// 
+			// movementbox
+			// 
+			this.movementbox.Controls.Add(this.noMoveBox);
+			this.movementbox.Location = new System.Drawing.Point(12, 220);
+			this.movementbox.Name = "movementbox";
+			this.movementbox.Size = new System.Drawing.Size(244, 46);
+			this.movementbox.TabIndex = 54;
+			this.movementbox.TabStop = false;
+			this.movementbox.Text = "Movement";
+			// 
+			// noMoveBox
+			// 
+			this.noMoveBox.AutoSize = true;
+			this.noMoveBox.Location = new System.Drawing.Point(10, 19);
+			this.noMoveBox.Name = "noMoveBox";
+			this.noMoveBox.Size = new System.Drawing.Size(133, 17);
+			this.noMoveBox.TabIndex = 26;
+			this.noMoveBox.Text = "No player/mob access";
+			this.tooltip.SetToolTip(this.noMoveBox, "Server move flag");
+			this.noMoveBox.UseVisualStyleBackColor = true;
 			// 
 			// slopebox
 			// 
@@ -590,9 +615,9 @@ namespace CodeImp.DoomBuilder.Windows
 			this.depthbox.Controls.Add(this.depthdeep);
 			this.depthbox.Controls.Add(this.depthshallow);
 			this.depthbox.Controls.Add(this.depthnone);
-			this.depthbox.Location = new System.Drawing.Point(12, 228);
+			this.depthbox.Location = new System.Drawing.Point(12, 270);
 			this.depthbox.Name = "depthbox";
-			this.depthbox.Size = new System.Drawing.Size(244, 90);
+			this.depthbox.Size = new System.Drawing.Size(244, 61);
 			this.depthbox.TabIndex = 52;
 			this.depthbox.TabStop = false;
 			this.depthbox.Text = "Depth";
@@ -600,7 +625,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// depthvery
 			// 
 			this.depthvery.AutoSize = true;
-			this.depthvery.Location = new System.Drawing.Point(100, 54);
+			this.depthvery.Location = new System.Drawing.Point(100, 42);
 			this.depthvery.Name = "depthvery";
 			this.depthvery.Size = new System.Drawing.Size(73, 17);
 			this.depthvery.TabIndex = 3;
@@ -611,7 +636,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// depthdeep
 			// 
 			this.depthdeep.AutoSize = true;
-			this.depthdeep.Location = new System.Drawing.Point(6, 54);
+			this.depthdeep.Location = new System.Drawing.Point(6, 42);
 			this.depthdeep.Name = "depthdeep";
 			this.depthdeep.Size = new System.Drawing.Size(51, 17);
 			this.depthdeep.TabIndex = 2;
@@ -622,7 +647,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// depthshallow
 			// 
 			this.depthshallow.AutoSize = true;
-			this.depthshallow.Location = new System.Drawing.Point(100, 20);
+			this.depthshallow.Location = new System.Drawing.Point(100, 19);
 			this.depthshallow.Name = "depthshallow";
 			this.depthshallow.Size = new System.Drawing.Size(62, 17);
 			this.depthshallow.TabIndex = 1;
@@ -633,7 +658,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// depthnone
 			// 
 			this.depthnone.AutoSize = true;
-			this.depthnone.Location = new System.Drawing.Point(6, 20);
+			this.depthnone.Location = new System.Drawing.Point(6, 19);
 			this.depthnone.Name = "depthnone";
 			this.depthnone.Size = new System.Drawing.Size(51, 17);
 			this.depthnone.TabIndex = 0;
@@ -844,9 +869,9 @@ namespace CodeImp.DoomBuilder.Windows
 			this.groupEffects.Controls.Add(this.flickerbox);
 			this.groupEffects.Controls.Add(label9);
 			this.groupEffects.Controls.Add(this.brightness);
-			this.groupEffects.Location = new System.Drawing.Point(3, 324);
+			this.groupEffects.Location = new System.Drawing.Point(12, 337);
 			this.groupEffects.Name = "groupEffects";
-			this.groupEffects.Size = new System.Drawing.Size(253, 116);
+			this.groupEffects.Size = new System.Drawing.Size(244, 103);
 			this.groupEffects.TabIndex = 1;
 			this.groupEffects.TabStop = false;
 			this.groupEffects.Text = "Effects";
@@ -1063,7 +1088,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "SectorEditFormMeridian";
-			this.Opacity = 0;
+			this.Opacity = 0D;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -1072,6 +1097,8 @@ namespace CodeImp.DoomBuilder.Windows
 			groupfloorceiling.ResumeLayout(false);
 			groupfloorceiling.PerformLayout();
 			this.panel1.ResumeLayout(false);
+			this.movementbox.ResumeLayout(false);
+			this.movementbox.PerformLayout();
 			this.slopebox.ResumeLayout(false);
 			this.slopebox.PerformLayout();
 			this.depthbox.ResumeLayout(false);
@@ -1155,5 +1182,7 @@ namespace CodeImp.DoomBuilder.Windows
 		private Controls.ButtonsNumericTextbox floorvert3height;
 		private System.Windows.Forms.ComboBox floorvert2;
 		private Controls.ButtonsNumericTextbox floorvert2height;
+		private System.Windows.Forms.GroupBox movementbox;
+		private System.Windows.Forms.CheckBox noMoveBox;
 	}
 }

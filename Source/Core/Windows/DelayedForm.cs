@@ -62,6 +62,7 @@ namespace CodeImp.DoomBuilder.Windows
 
 			// Restore location
 			Point validlocation = Point.Empty;
+
 			Point location = new Point(General.Settings.ReadSetting("windows." + configname + ".positionx", int.MaxValue),
 									   General.Settings.ReadSetting("windows." + configname + ".positiony", int.MaxValue));
 

@@ -347,6 +347,7 @@ namespace CodeImp.DoomBuilder.IO
 				coll.Add("sectortag", s.SectorTag);
 				coll.Add("animationspeed", s.AnimationSpeed);
 				coll.Add("flicker", s.Flicker);
+				coll.Add("nomove", s.NoMove);
 				coll.Add("depth", s.Depth);
 				coll.Add("scrollfloor", s.ScrollFloor);
 				coll.Add("scrollceiling", s.ScrollCeiling);

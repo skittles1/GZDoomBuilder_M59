@@ -82,6 +82,7 @@ namespace CodeImp.DoomBuilder.Map
 		private bool scrollfloor;
 		private bool scrollceiling;
 		private bool flicker;
+		private bool noMove;
 		private int floortexrot;
 		private int ceiltexrot;
 		private List<Vector3D> floorslopevertexes;
@@ -163,6 +164,7 @@ namespace CodeImp.DoomBuilder.Map
 		public bool ScrollFloor { get { return scrollfloor; } set { BeforePropsChange(); scrollfloor = value; updateneeded = true; } }
 		public bool ScrollCeiling { get { return scrollceiling; } set { BeforePropsChange(); scrollceiling = value; updateneeded = true; } }
 		public bool Flicker { get { return flicker; } set { BeforePropsChange(); flicker = value; updateneeded = true; } }
+		public bool NoMove { get { return noMove; } set { BeforePropsChange(); noMove = value; updateneeded = true; } }
 		public int FloorTexRot { get { return floortexrot; } set { BeforePropsChange(); floortexrot = value; updateneeded = true; } }
 		public int CeilTexRot { get { return ceiltexrot; } set { BeforePropsChange(); ceiltexrot = value; updateneeded = true; } }
 		public List<Vector3D> FloorSlopeVertexes { get { return floorslopevertexes; } set { BeforePropsChange(); floorslopevertexes = value; updateneeded = true; } }
@@ -210,6 +212,7 @@ namespace CodeImp.DoomBuilder.Map
 			this.depth = 0;
 			this.animationspeed = 0;
 			this.flicker = false;
+			this.noMove = false;
 			this.scrollceiling = false;
 			this.scrollfloor = false;
 			this.scrollflags = new SDScrollFlags();
@@ -324,6 +327,7 @@ namespace CodeImp.DoomBuilder.Map
 				s.rwInt(ref depth);
 				s.rwInt(ref animationspeed);
 				s.rwBool(ref flicker);
+				s.rwBool(ref noMove);
 				s.rwBool(ref scrollceiling);
 				s.rwBool(ref scrollfloor);
 				s.rwInt(ref floortexrot);
@@ -438,6 +442,7 @@ namespace CodeImp.DoomBuilder.Map
 				s.depth = depth;
 				s.animationspeed = animationspeed;
 				s.flicker = flicker;
+				s.noMove = noMove;
 				s.scrollceiling = scrollceiling;
 				s.scrollfloor = scrollfloor;
 				s.scrollflags = new SDScrollFlags(scrollflags.Speed, scrollflags.Direction);
@@ -1159,13 +1164,14 @@ namespace CodeImp.DoomBuilder.Map
 		// Meridian specific version.
 		public void Update(int hfloor, int hceil, int offsetx, int offsety, string tfloor, string tceil,
 			float floorOffset, float ceilOffset, int texRotFloor, int texRotCeil, Vector3D fl, Vector3D cl,
-			int tag, int brightness, int depth, int animationspeed, bool flicker,
+			int tag, int brightness, int depth, int animationspeed, bool flicker, bool noMove,
 			bool scrollfloor, bool scrollceiling)
 		{
 			this.sectortag = tag;
 			this.depth = depth;
 			this.animationspeed = animationspeed;
 			this.flicker = flicker;
+			this.noMove = noMove;
 			this.scrollfloor = scrollfloor;
 			this.scrollceiling = scrollceiling;
 			this.offsetx = offsetx;

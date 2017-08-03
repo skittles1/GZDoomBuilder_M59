@@ -467,6 +467,7 @@ namespace CodeImp.DoomBuilder.IO
 				int animationspeed = GetCollectionEntry(c, "animationspeed", false, 0, where);
 				int depth = GetCollectionEntry(c, "depth", false, 0, where);
 				bool flicker = GetCollectionEntry(c, "flicker", false, false, where);
+				bool noMove = GetCollectionEntry(c, "nomove", false, false, where);
 				bool scfloor = GetCollectionEntry(c, "scrollfloor", false, false, where);
 				bool scceiling = GetCollectionEntry(c, "scrollceiling", false, false, where);
 				int offsetx = GetCollectionEntry(c, "offsetx", false, 0, where);
@@ -488,7 +489,7 @@ namespace CodeImp.DoomBuilder.IO
 					if (General.Map.MERIDIAN)
 						s.Update(hfloor, hceil, offsetx, offsety, tfloor, tceil, foffset, coffset, frotate, crotate,
 							new Vector3D(fslopex, fslopey, fslopez).GetNormal(), new Vector3D(cslopex, cslopey, cslopez).GetNormal(),
-							sectortag, bright, depth, animationspeed, flicker, scfloor, scceiling);
+							sectortag, bright, depth, animationspeed, flicker, noMove, scfloor, scceiling);
 					else
 						s.Update(hfloor, hceil, tfloor, tceil, special, stringflags, tags, bright, foffset,
 							new Vector3D(fslopex, fslopey, fslopez).GetNormal(), coffset, new Vector3D(cslopex, cslopey, cslopez).GetNormal());

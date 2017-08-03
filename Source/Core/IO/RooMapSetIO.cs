@@ -85,7 +85,8 @@ namespace CodeImp.DoomBuilder.IO
 		private const uint SF_FLICKER         = 0x00000200; // Flicker light in sector
 		private const uint SF_SLOPED_FLOOR    = 0x00000400; // Sloped floor
 		private const uint SF_SLOPED_CEILING  = 0x00000800; // Sloped ceiling
-
+		// 0x00001000 used by clients for animation/rendering
+		private const uint SF_NOMOVE          = 0x00002000; // Sector can't be moved on by mobs or players
 		#endregion
 
 		#region ================== Constructor / Disposer
@@ -276,10 +277,11 @@ namespace CodeImp.DoomBuilder.IO
 				bool flicker = ((flags & SF_FLICKER) == SF_FLICKER);
 				bool scrollFloor = ((flags & SF_SCROLL_FLOOR) == SF_SCROLL_FLOOR);
 				bool scrollCeiling = ((flags & SF_SCROLL_CEILING) == SF_SCROLL_CEILING);
+				bool noMove = ((flags & SF_NOMOVE) == SF_NOMOVE);
 				s.ScrollFlags = new SDScrollFlags(SectorScrollSpeed(flags), SectorScrollDirection(flags));
 				s.Update(hfloor, hceil, xoffset, yoffset, MakeGRDName(texFloor), MakeGRDName(texCeil),
 					floorD, ceilD, texRotFloor, texRotCeil, vfloor.GetNormal(), vceil.GetNormal(),
-					tag, bright, depth, speed, flicker, scrollFloor, scrollCeiling);
+					tag, bright, depth, speed, flicker, noMove, scrollFloor, scrollCeiling);
 
 				// Add it to the lookup table
 				link.Add(i, s);
@@ -1086,6 +1088,8 @@ namespace CodeImp.DoomBuilder.IO
 			uint flags = 0;
 			if (S.Flicker)
 				flags |= SF_FLICKER;
+			if (S.NoMove)
+				flags |= SF_NOMOVE;
 			if (S.ScrollFloor)
 				flags |= SF_SCROLL_FLOOR;
 			if (S.ScrollCeiling)

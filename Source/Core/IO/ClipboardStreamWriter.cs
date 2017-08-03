@@ -271,6 +271,7 @@ namespace CodeImp.DoomBuilder.IO
 					writer.Write((Int32)s.SectorTag);
 					writer.Write((Int32)s.AnimationSpeed);
 					writer.Write((Boolean)s.Flicker);
+					writer.Write((Boolean)s.NoMove);
 					writer.Write((Int32)s.Depth);
 					writer.Write((Boolean)s.ScrollFloor);
 					writer.Write((Boolean)s.ScrollCeiling);

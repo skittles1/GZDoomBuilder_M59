@@ -56,6 +56,7 @@ namespace CodeImp.DoomBuilder.Windows
 			public readonly int SectorTag;
 			public readonly int AnimationSpeed;
 			public readonly bool Flicker;
+			public readonly bool NoMove;
 			public readonly int Depth;
 			public readonly SDScrollFlags ScrollFlags;
 			public readonly bool ScrollCeiling;
@@ -74,6 +75,7 @@ namespace CodeImp.DoomBuilder.Windows
 				SectorTag = s.SectorTag;
 				AnimationSpeed = s.AnimationSpeed;
 				Flicker = s.Flicker;
+				NoMove = s.NoMove;
 				if (s.IsNoAmbient())
 					Brightness = s.NoAmbientBrightness();
 				else
@@ -150,6 +152,7 @@ namespace CodeImp.DoomBuilder.Windows
 			}
 			brightness.Text = lightlevel.ToString();
 			flickerbox.Checked = sc.Flicker;
+			noMoveBox.Checked = sc.NoMove;
 			animationspeed.Text = sc.AnimationSpeed.ToString();
 
 			// Depth
@@ -329,6 +332,16 @@ namespace CodeImp.DoomBuilder.Windows
 						flickerbox.CheckState = CheckState.Indeterminate;
 					}
 				}
+
+				if (noMoveBox.CheckState != CheckState.Indeterminate)
+				{
+					if (s.NoMove != noMoveBox.Checked)
+					{
+						noMoveBox.ThreeState = true;
+						noMoveBox.CheckState = CheckState.Indeterminate;
+					}
+				}
+
 				if (s.AnimationSpeed.ToString() != animationspeed.Text) animationspeed.Text = "";
 
 				// Depth
@@ -636,6 +649,12 @@ namespace CodeImp.DoomBuilder.Windows
 				{
 					case CheckState.Checked: s.Flicker = true; break;
 					case CheckState.Unchecked: s.Flicker = false; break;
+				}
+
+				switch (noMoveBox.CheckState)
+				{
+					case CheckState.Checked: s.NoMove = true; break;
+					case CheckState.Unchecked: s.NoMove = false; break;
 				}
 
 				if (!String.IsNullOrEmpty(animationspeed.Text))

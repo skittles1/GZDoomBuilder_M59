@@ -164,7 +164,7 @@ namespace CodeImp.DoomBuilder.IO
 				List<int> floorvlist = new List<int>(3);
 				List<int> ceilvlist = new List<int>(3);
 				int sectortag = 0, animationspeed = 0, offsetx = 0, offsety = 0, frotate = 0, crotate = 0, scspeed = 0, scdir = 0, depth = 0;
-				bool flicker = false, scfloor = false, scceiling = false;
+				bool flicker = false, noMove = false, scfloor = false, scceiling = false;
 				if (General.Map.MERIDIAN)
 				{
 					bool floorVertexes = reader.ReadBoolean();
@@ -222,6 +222,7 @@ namespace CodeImp.DoomBuilder.IO
 					sectortag = reader.ReadInt32();
 					animationspeed = reader.ReadInt32();
 					flicker = reader.ReadBoolean();
+					noMove = reader.ReadBoolean();
 					depth = reader.ReadInt32();
 					scfloor = reader.ReadBoolean();
 					scceiling = reader.ReadBoolean();
@@ -252,7 +253,8 @@ namespace CodeImp.DoomBuilder.IO
 				{
 					if (General.Map.MERIDIAN)
 						s.Update(hfloor, hceil, offsetx, offsety, tfloor, tceil, foffset, coffset, frotate,
-							crotate, fslope, cslope, sectortag, bright, depth, animationspeed, flicker, scfloor, scceiling);
+							crotate, fslope, cslope, sectortag, bright, depth, animationspeed, flicker, noMove,
+							scfloor, scceiling);
 					else
 						s.Update(hfloor, hceil, tfloor, tceil, effect, stringflags, tags, bright, foffset, fslope, coffset, cslope);
 

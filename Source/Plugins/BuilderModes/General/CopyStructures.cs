@@ -287,6 +287,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		[FieldDescription(Description = "Flicker", DOOM = false, HEXEN = false, UDMF = false)]
 		public bool Flicker = true;
 
+		[FieldDescription(Description = "NoMove", DOOM = false, HEXEN = false, UDMF = false)]
+		public bool NoMove = true;
+
 		[FieldDescription(Description = "Scroll Floor", DOOM = false, HEXEN = false, UDMF = false)]
 		public bool ScrollFloor = true;
 
@@ -320,6 +323,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		private readonly int depth;
 		private readonly int animationspeed;
 		private readonly bool flicker;
+		private readonly bool noMove;
 		private readonly bool scrollfloor;
 		private readonly bool scrollceiling;
 		private readonly int floortexrot;
@@ -344,6 +348,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			depth = s.Depth;
 			animationspeed = s.AnimationSpeed;
 			flicker = s.Flicker;
+			noMove = s.NoMove;
 			scrollceiling = s.ScrollCeiling;
 			scrollfloor = s.ScrollFloor;
 			floortexrot = s.FloorTexRot;
@@ -388,6 +393,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			if (settings.Depth) s.Depth = depth;
 			if (settings.AnimationSpeed) s.AnimationSpeed = animationspeed;
 			if (settings.Flicker) s.Flicker = flicker;
+			if (settings.NoMove) s.NoMove = noMove;
 			if (settings.ScrollCeiling) s.ScrollCeiling = scrollceiling;
 			if (settings.ScrollFloor) s.ScrollFloor = scrollfloor;
 			if (settings.ScrollFlags) s.ScrollFlags = scrollflags;
