@@ -20,7 +20,7 @@ namespace CodeImp.DoomBuilder.Controls
 		#region ================== Native stuff
 
 		[DllImport("user32.dll")]
-		private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+		private static extern IntPtr SendMessage(IntPtr hWnd, Int32 wMsg, IntPtr wParam, IntPtr lParam);
 		
 		private const int WM_SETREDRAW = 11;
 
@@ -444,12 +444,12 @@ namespace CodeImp.DoomBuilder.Controls
 
 		private void BeginUpdate()
 		{
-			SendMessage(this.Parent.Handle, WM_SETREDRAW, false, 0);
+			SendMessage(this.Parent.Handle, WM_SETREDRAW, new IntPtr(0), IntPtr.Zero);
 		}
 
 		private void EndUpdate()
 		{
-			SendMessage(this.Parent.Handle, WM_SETREDRAW, true, 0);
+			SendMessage(this.Parent.Handle, WM_SETREDRAW, new IntPtr(1), IntPtr.Zero);
 			this.Parent.Refresh();
 		}
 

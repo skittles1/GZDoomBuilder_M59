@@ -262,14 +262,12 @@ namespace CodeImp.DoomBuilder.IO
 
 				if ((flags & SF_SLOPED_FLOOR) == SF_SLOPED_FLOOR)
 				{
-					List<Vector3D> floorvert;
-					CalculateSlope(reader, out vfloor, out floorD, out texRotFloor, out floorvert, true);
+					CalculateSlope(reader, out vfloor, out floorD, out texRotFloor, out List<Vector3D> floorvert, true);
 					s.FloorSlopeVertexes = floorvert;
 				}
 				if ((flags & SF_SLOPED_CEILING) == SF_SLOPED_CEILING)
 				{
-					List<Vector3D> ceilvert;// = new List<Vector2D>();
-					CalculateSlope(reader, out vceil, out ceilD, out texRotCeil, out ceilvert, false);
+					CalculateSlope(reader, out vceil, out ceilD, out texRotCeil, out List<Vector3D> ceilvert, false);
 					s.CeilSlopeVertexes = ceilvert;
 				}
 
@@ -415,8 +413,8 @@ namespace CodeImp.DoomBuilder.IO
 					Dictionary<string, bool> stringflags = new Dictionary<string, bool>(StringComparer.Ordinal);
 					foreach (string f in manager.Config.SortedLinedefFlags)
 					{
-						int fnum;
-						if (int.TryParse(f, out fnum)) stringflags[f] = ((linedefFlags & fnum) == fnum);
+						if (int.TryParse(f, out int fnum))
+							stringflags[f] = ((linedefFlags & fnum) == fnum);
 					}
 					l.Update(stringflags, 0, new List<int> { 0 }, 0, new int[Linedef.NUM_ARGS]);
 					l.UpdateCache();
@@ -1034,8 +1032,7 @@ namespace CodeImp.DoomBuilder.IO
 
 			foreach (KeyValuePair<string, bool> f in l.Flags)
 			{
-				int fnum;
-				if (f.Value && int.TryParse(f.Key, out fnum))
+				if (f.Value && int.TryParse(f.Key, out int fnum))
 					blak_flags |= (uint)fnum;
 			}
 
@@ -1228,13 +1225,15 @@ namespace CodeImp.DoomBuilder.IO
 				}
 			}
 
-			FileSidedef fsd = new FileSidedef();
-			fsd.id = SD.Tag;
-			fsd.texMid = (int)MakeGRDNumber(SD.MiddleTexture);
-			fsd.texHigh = (int)MakeGRDNumber(SD.HighTexture);
-			fsd.texLow = (int)MakeGRDNumber(SD.LowTexture);
-			fsd.flags = (int)flags;
-			fsd.animateSpeed = SD.AnimateSpeed;
+			FileSidedef fsd = new FileSidedef()
+			{
+				id = SD.Tag,
+				texMid = (int)MakeGRDNumber(SD.MiddleTexture),
+				texHigh = (int)MakeGRDNumber(SD.HighTexture),
+				texLow = (int)MakeGRDNumber(SD.LowTexture),
+				flags = (int)flags,
+				animateSpeed = SD.AnimateSpeed
+			};
 			fileSideDefs.Add(fileSideDefs.Count + 1, fsd);
 			if (positive)
 				SD.Line.FileSidedef1 = fileSideDefs.Count;

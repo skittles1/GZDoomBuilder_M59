@@ -47,8 +47,8 @@ namespace CodeImp.DoomBuilder.Controls
 		public delegate void SingleFieldNameEvent(string fieldname);
 		public delegate void DualFieldNameEvent(string oldname, string newname);
 
-		// Events
-		public event SingleFieldNameEvent OnFieldInserted;
+        // Events
+        public event SingleFieldNameEvent OnFieldInserted;
 		public event DualFieldNameEvent OnFieldNameChanged;
 		public event SingleFieldNameEvent OnFieldValueChanged;
 		public event SingleFieldNameEvent OnFieldTypeChanged;
@@ -592,7 +592,7 @@ namespace CodeImp.DoomBuilder.Controls
 						enumscombo.Location = new Point(cellrect.Left, cellrect.Top);
 						enumscombo.Width = cellrect.Width;
 						int internalheight = cellrect.Height - (enumscombo.Height - enumscombo.ClientRectangle.Height) - 6;
-						General.SendMessage(enumscombo.Handle, General.CB_SETITEMHEIGHT, -1, internalheight);
+						General.SendMessage(enumscombo.Handle, General.CB_SETITEMHEIGHT, new IntPtr(-1), new IntPtr(internalheight));
 						
 						// Select the value of this field (for DropDownList style combo)
 						foreach(EnumItem i in enumscombo.Items)

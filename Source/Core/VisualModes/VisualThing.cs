@@ -182,8 +182,8 @@ namespace CodeImp.DoomBuilder.VisualModes
 			General.Map.Graphics.RegisterResource(this);
 		}
 
-		// Disposer
-		public virtual void Dispose()
+        // Disposer
+        public virtual void Dispose()
 		{
 			// Not already disposed?
 			if(!isdisposed)

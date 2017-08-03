@@ -33,7 +33,7 @@ namespace CodeImp.DoomBuilder.IO
 		{
 			"wad", "pk3", "pk7", "bak", "backup1", "backup2", "backup3", "zip", "rar",
 			"7z", "ogg", "roo", "roo~", "bsf", "mp3", "dll", "wav", "gitignore", "rsb",
-			"backup1", "backup2", "backup3", "dbprefab", "dbs"
+			"backup1", "backup2", "backup3", "dbprefab", "dbs", "exe"
 		};
 
 		#endregion

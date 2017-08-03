@@ -30,7 +30,7 @@ namespace CodeImp.DoomBuilder.Controls
 		#region ================== API Declarations
 
 		[DllImport("user32.dll")]
-		private static extern int SendMessage(IntPtr window, int message, int wParam, ref LVGROUP lParam);
+		private static extern IntPtr SendMessage(IntPtr window, int message, IntPtr wParam, ref LVGROUP lParam);
 
 		#endregion
 
@@ -100,7 +100,7 @@ namespace CodeImp.DoomBuilder.Controls
 			groupstruct.state = (int)((collapsed ? GroupState.COLLAPSED : GroupState.EXPANDED) | GroupState.COLLAPSIBLE);
 			groupstruct.stateMask = (int)(GroupState.COLLAPSIBLE | GroupState.COLLAPSED);
 			groupstruct.mask = 4; // LVGF_STATE 
-			SendMessage(this.Handle, 0x1000 + 147, GetGroupID(group), ref groupstruct); // #define LVM_SETGROUPINFO (LVM_FIRST + 147)
+			SendMessage(this.Handle, 0x1000 + 147, new IntPtr(GetGroupID(group)), ref groupstruct); // #define LVM_SETGROUPINFO (LVM_FIRST + 147)
 
 			return true;
 		}
@@ -118,7 +118,7 @@ namespace CodeImp.DoomBuilder.Controls
 			groupstruct.stateMask = (int)(GroupState.COLLAPSIBLE | GroupState.COLLAPSED);
 			groupstruct.mask = 4; // LVGF_STATE
 
-			SendMessage(this.Handle, 0x1000 + 149, GetGroupID(group), ref groupstruct); // #define LVM_GETGROUPINFO (LVM_FIRST + 149)
+			SendMessage(this.Handle, 0x1000 + 149, new IntPtr(GetGroupID(group)), ref groupstruct); // #define LVM_GETGROUPINFO (LVM_FIRST + 149)
 			return (groupstruct.state & (int)GroupState.COLLAPSED) != 0;
 		}
 

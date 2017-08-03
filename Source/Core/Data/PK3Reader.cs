@@ -22,10 +22,10 @@ using System.IO;
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.IO;
-using SharpCompress.Archive; //mxd
-using SharpCompress.Archive.Zip;
 using SharpCompress.Common; //mxd
-using SharpCompress.Reader; //mxd
+using SharpCompress.Archives.Zip;
+using SharpCompress.Readers;
+using SharpCompress.Archives;
 
 #endregion
 
@@ -63,7 +63,7 @@ namespace CodeImp.DoomBuilder.Data
 			List<DirectoryFileEntry> fileentries = new List<DirectoryFileEntry>();
 
 			// Create archive
-			archive = ArchiveFactory.Open(location.location, Options.KeepStreamsOpen);
+			archive = ArchiveFactory.Open(location.location, new ReaderOptions());
 			archivetype = archive.Type;
 
 			// Random access of 7z archives works TERRIBLY slow in SharpCompress

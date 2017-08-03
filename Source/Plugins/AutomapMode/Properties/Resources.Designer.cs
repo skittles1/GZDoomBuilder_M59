@@ -80,6 +80,9 @@ namespace CodeImp.DoomBuilder.AutomapMode.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ShowSecrets {
             get {
                 object obj = ResourceManager.GetObject("ShowSecrets", resourceCulture);

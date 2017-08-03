@@ -737,8 +737,8 @@ namespace CodeImp.DoomBuilder.Data
 				// Done
 				notifiedbusy = false;
 				backgroundloader = null;
-				General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
-			}
+				General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, new IntPtr(0), new IntPtr(0));
+            }
 		}
 		
 		// The background loader
@@ -782,8 +782,8 @@ namespace CodeImp.DoomBuilder.Data
 						if(!notifiedbusy)
 						{
 							notifiedbusy = true;
-							General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
-						}
+							General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, new IntPtr(0), new IntPtr(0));
+                        }
 						Thread.Sleep(0);
 					}
 					else
@@ -796,7 +796,7 @@ namespace CodeImp.DoomBuilder.Data
 							if(!notifiedbusy)
 							{
 								notifiedbusy = true;
-								General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
+								General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, new IntPtr(0), new IntPtr(0));
 							}
 							Thread.Sleep(0);
 						}
@@ -820,14 +820,14 @@ namespace CodeImp.DoomBuilder.Data
 								{
 									notifiedbusy = false;
 									IntPtr strptr = Marshal.StringToCoTaskMemAuto(deltatimesec);
-									General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.ResourcesLoaded, strptr.ToInt32(), 0);
-								}
+									General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.ResourcesLoaded, strptr, new IntPtr(0));
+                                }
 							}
 							else if(notifiedbusy) //mxd. Sould never happen (?)
 							{
 								notifiedbusy = false;
-								General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
-							}
+								General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, new IntPtr(0), new IntPtr(0));
+                            }
 							
 							// Wait longer to release CPU resources
 							Thread.Sleep(50);
@@ -859,8 +859,8 @@ namespace CodeImp.DoomBuilder.Data
 			}
 			
 			// Update icon
-			General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
-		}
+			General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, new IntPtr(0), new IntPtr(0));
+        }
 
 		//mxd. This loads a model
 		internal bool ProcessModel(int type) 
@@ -3079,7 +3079,7 @@ namespace CodeImp.DoomBuilder.Data
 				// Whine and moan
 				if(string.IsNullOrEmpty(skytex))
 					General.ErrorLogger.Add(ErrorType.Warning, "Skybox creation failed: Sky1 property is missing from the MAPINFO map definition");
-				else
+				else if (!General.Map.MERIDIAN)
 					General.ErrorLogger.Add(ErrorType.Warning, "Skybox creation failed: unable to load \"" + skytex + "\" texture. Using default texture.");
 				
 				// Use the built-in texture

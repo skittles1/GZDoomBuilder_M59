@@ -112,8 +112,8 @@ namespace CodeImp.DoomBuilder.IO
 
 			// Skip any hotspot data.
 			byte hotspotCount = reader.ReadByte();
-			for (int i = 0; i < hotspotCount; ++i)
-				reader.ReadBytes(9);
+			if (hotspotCount > 0)
+				reader.ReadBytes(9 * hotspotCount);
 
 			// BGF bitmaps can be compressed.
 			bool isCompressed = reader.ReadBoolean();
@@ -202,18 +202,17 @@ namespace CodeImp.DoomBuilder.IO
 		// Returns null on failure
 		private PixelColorBlock ReadAsPixelData(byte[] data, int width, int height)
 		{
-			MemoryStream stream = new MemoryStream(data, false);
-
-			// Valid width and height?
-			if ((width <= 0) || (height <= 0))
+			if (width <= 0 || height <= 0)
+			{
 				return null;
+			}
 
 			// Allocate memory
 			PixelColorBlock pixeldata = new PixelColorBlock(width, height);
 			pixeldata.Clear();
 
-			for (int i = 0; i < height * width; ++i)
-				pixeldata.Pointer[i] = palette[stream.ReadByte()];
+			for (uint i = 0; i < width * height; i++)
+				pixeldata.Pointer[i] = palette[data[i]];
 
 			// Return pointer
 			return pixeldata;
