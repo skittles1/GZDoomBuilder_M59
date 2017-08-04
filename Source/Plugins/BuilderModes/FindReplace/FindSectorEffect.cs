@@ -41,7 +41,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		#region ================== Properties
 
 		public override Image BrowseImage { get { return Properties.Resources.List; } }
-		
+
 		#endregion
 
 		#region ================== Constructor / Destructor
@@ -49,6 +49,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		#endregion
 
 		#region ================== Methods
+
+		// This is called to test if the item should be displayed
+		public override bool DetermineVisiblity()
+		{
+			return !General.Map.MERIDIAN;
+		}
 
 		// This is called when the browse button is pressed
 		public override string Browse(string initialvalue)

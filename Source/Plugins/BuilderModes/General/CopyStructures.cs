@@ -914,6 +914,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
 					|| !sourcedata.GeneralizedBits.Overlaps(targetdata.GeneralizedBits)) return false;
 			}
 
+			if (General.Map.MERIDIAN)
+			{
+				if (flags.Brightness && source.Brightness != target.Brightness) return false;
+				if (flags.FloorTextureRotation && source.FloorTexRot != target.FloorTexRot) return false;
+				if (flags.CeilingTextureRotation && source.CeilTexRot != target.CeilTexRot) return false;
+				if (flags.FloorSlope && source.FloorSlope != target.FloorSlope) return false;
+				if (flags.CeilingSlope && source.CeilSlope != target.CeilSlope) return false;
+				if (flags.SectorTag && source.SectorTag != target.SectorTag) return false;
+				if (flags.Depth && source.Depth != target.Depth) return false;
+				if (flags.AnimationSpeed && source.AnimationSpeed != target.AnimationSpeed) return false;
+				if (flags.Flicker && source.Flicker != target.Flicker) return false;
+				if (flags.NoMove && source.NoMove != target.NoMove) return false;
+				if (flags.ScrollFloor && source.ScrollFloor != target.ScrollFloor) return false;
+				if (flags.ScrollCeiling && source.ScrollCeiling != target.ScrollCeiling) return false;
+				if (flags.ScrollFlags && source.ScrollFlags != target.ScrollFlags) return false;
+			}
+
 			if(!General.Map.UDMF) return true;
 
 			// UI fields

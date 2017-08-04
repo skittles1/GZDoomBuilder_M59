@@ -46,7 +46,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		public override string UsageHint { get { return "Usage: action [arg1 [arg2 [arg3 [arg4 [arg5]]]]]" + Environment.NewLine
 					+ "Arg value can be \"*\" (any value)" + Environment.NewLine
 					+ "Arg1 can be script name when searching for ACS specials"; } }
-		
+
 		#endregion
 
 		#region ================== Constructor / Destructor
@@ -54,6 +54,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		#endregion
 
 		#region ================== Methods
+
+		// This is called to test if the item should be displayed
+		public override bool DetermineVisiblity()
+		{
+			return !General.Map.MERIDIAN;
+		}
 
 		// This is called when the browse button is pressed
 		public override string Browse(string initialvalue)

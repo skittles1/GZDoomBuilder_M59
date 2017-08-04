@@ -72,6 +72,7 @@ namespace CodeImp.DoomBuilder.Controls
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.flagsPanel = new System.Windows.Forms.GroupBox();
 			this.flags = new CodeImp.DoomBuilder.Controls.TransparentListView();
+			this.noMoveCheckBox = new System.Windows.Forms.CheckBox();
 			label13 = new System.Windows.Forms.Label();
 			label5 = new System.Windows.Forms.Label();
 			this.sectorinfo.SuspendLayout();
@@ -85,7 +86,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// 
 			// label13
 			// 
-			label13.Location = new System.Drawing.Point(183, 64);
+			label13.Location = new System.Drawing.Point(183, 39);
 			label13.Name = "label13";
 			label13.Size = new System.Drawing.Size(70, 14);
 			label13.TabIndex = 14;
@@ -211,6 +212,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// 
 			// sectorinfo
 			// 
+			this.sectorinfo.Controls.Add(this.noMoveCheckBox);
 			this.sectorinfo.Controls.Add(this.panelFadeColor);
 			this.sectorinfo.Controls.Add(this.panelLightColor);
 			this.sectorinfo.Controls.Add(this.labelFade);
@@ -238,7 +240,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// panelFadeColor
 			// 
 			this.panelFadeColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panelFadeColor.Location = new System.Drawing.Point(260, 50);
+			this.panelFadeColor.Location = new System.Drawing.Point(260, 80);
 			this.panelFadeColor.Name = "panelFadeColor";
 			this.panelFadeColor.Size = new System.Drawing.Size(20, 12);
 			this.panelFadeColor.TabIndex = 21;
@@ -246,14 +248,14 @@ namespace CodeImp.DoomBuilder.Controls
 			// panelLightColor
 			// 
 			this.panelLightColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panelLightColor.Location = new System.Drawing.Point(260, 35);
+			this.panelLightColor.Location = new System.Drawing.Point(260, 65);
 			this.panelLightColor.Name = "panelLightColor";
 			this.panelLightColor.Size = new System.Drawing.Size(20, 12);
 			this.panelLightColor.TabIndex = 20;
 			// 
 			// labelFade
 			// 
-			this.labelFade.Location = new System.Drawing.Point(183, 49);
+			this.labelFade.Location = new System.Drawing.Point(183, 79);
 			this.labelFade.Name = "labelFade";
 			this.labelFade.Size = new System.Drawing.Size(70, 14);
 			this.labelFade.TabIndex = 19;
@@ -262,7 +264,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// 
 			// labelLight
 			// 
-			this.labelLight.Location = new System.Drawing.Point(183, 34);
+			this.labelLight.Location = new System.Drawing.Point(183, 64);
 			this.labelLight.Name = "labelLight";
 			this.labelLight.Size = new System.Drawing.Size(70, 14);
 			this.labelLight.TabIndex = 18;
@@ -271,7 +273,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// 
 			// brightness
 			// 
-			this.brightness.Location = new System.Drawing.Point(257, 64);
+			this.brightness.Location = new System.Drawing.Point(259, 39);
 			this.brightness.Name = "brightness";
 			this.brightness.Size = new System.Drawing.Size(38, 14);
 			this.brightness.TabIndex = 17;
@@ -536,6 +538,17 @@ namespace CodeImp.DoomBuilder.Controls
 			this.flags.UseCompatibleStateImageBehavior = false;
 			this.flags.View = System.Windows.Forms.View.List;
 			// 
+			// noMoveCheckBox
+			// 
+			this.noMoveCheckBox.AutoSize = true;
+			this.noMoveCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.noMoveCheckBox.Location = new System.Drawing.Point(147, 19);
+			this.noMoveCheckBox.Name = "noMoveCheckBox";
+			this.noMoveCheckBox.Size = new System.Drawing.Size(133, 17);
+			this.noMoveCheckBox.TabIndex = 23;
+			this.noMoveCheckBox.Text = "No player/mob access";
+			this.noMoveCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// SectorInfoPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -605,5 +618,6 @@ namespace CodeImp.DoomBuilder.Controls
 		private System.Windows.Forms.Label effectlabel;
 		private System.Windows.Forms.Label labelfloor;
 		private System.Windows.Forms.Label labelceiling;
+		private System.Windows.Forms.CheckBox noMoveCheckBox;
 	}
 }

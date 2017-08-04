@@ -72,6 +72,7 @@ namespace CodeImp.DoomBuilder.Controls
 
 			if (General.Map.MERIDIAN)
 			{
+				noMoveCheckBox.Checked = s.NoMove;
 				tag.Text = s.SectorTag.ToString();
 				tag.Enabled = true;
 				taglabel.Enabled = true;
@@ -84,6 +85,7 @@ namespace CodeImp.DoomBuilder.Controls
 			}
 			else
 			{
+				noMoveCheckBox.Visible = false;
 				//mxd. Set tags
 				if (s.Tags.Count > 1)
 				{

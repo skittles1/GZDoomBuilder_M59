@@ -47,6 +47,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
 		#region ================== Methods
 
+		// This is called to test if the item should be displayed
+		public override bool DetermineVisiblity()
+		{
+			return !General.Map.MERIDIAN;
+		}
+
 		// This is called to perform a search (and replace)
 		// Returns a list of items to show in the results list
 		// replacewith is null when not replacing
