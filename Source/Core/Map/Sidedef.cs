@@ -459,10 +459,12 @@ namespace CodeImp.DoomBuilder.Map
 						if(!float.IsNaN(this.Line.End.ZCeiling)) otherendz = this.Line.End.ZCeiling;
 					}
 
+					if (Math.Abs(thisstartz - otherstartz) < 0.01f && Math.Abs(thisendz - otherendz) < 0.01f) return false;
+
 					// Texture is required when our start or end vertex is higher than on the other side.
-					if(thisstartz > otherstartz || thisendz > otherendz) return true;
+					return (thisstartz > otherstartz || thisendz > otherendz);
 				}
-				
+
 				// Texture is required when ceiling of other side is lower
 				return (Other.sector.CeilHeight < this.sector.CeilHeight);
 			}
@@ -525,7 +527,7 @@ namespace CodeImp.DoomBuilder.Map
 					if (Math.Abs(thisstartz - otherstartz) < 0.01f && Math.Abs(thisendz - otherendz) < 0.01f) return false;
 
 					// Texture is required when our start or end vertex is lower than on the other side.
-					if(thisstartz < otherstartz || thisendz < otherendz) return true;
+					return (thisstartz < otherstartz || thisendz < otherendz);
 				}
 
 				// Texture is required when floor of other side is higher

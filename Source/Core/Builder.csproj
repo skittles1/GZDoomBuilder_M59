@@ -1443,7 +1443,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>call "%25VS120COMNTOOLS%25\vsvars32.bat"
+    <PostBuildEvent>call "%25VS150COMNTOOLS%25\VsDevCmd.bat"
 EDITBIN.EXE /NOLOGO /LARGEADDRESSAWARE "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
