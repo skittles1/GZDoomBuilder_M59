@@ -185,6 +185,10 @@ namespace CodeImp.DoomBuilder.Geometry
 			return (normal != other.normal) || (offset != other.offset);
 		}
 		
+		public bool EpsilonEquals(Plane p)
+		{
+			return (normal.EpsilonEqual(p.normal) && Math.Abs(offset - p.offset) < 0.001);
+		}
 		#endregion
 
 		#region ================== Statics (mxd)
