@@ -93,13 +93,10 @@ namespace CodeImp.DoomBuilder.IO
 		{
 			BinaryReader reader = new BinaryReader(stream);
 
-			stream.Seek(8, SeekOrigin.Begin);
-
-			// Bitmap string name.
-			string str = reader.ReadBytes(32).ToString();
-			
-			// Skip group counts and max indices.
-			reader.ReadBytes(12);
+			// Skip 4 bytes signature, 4 bytes version
+			// 32 bytes string name (optional)
+			// 12 bytes group counts and max indices
+			stream.Seek(52, SeekOrigin.Begin);
 
 			// Read shrink factor (image scale factor).
 			shrinkFactor = (int)reader.ReadUInt32();
