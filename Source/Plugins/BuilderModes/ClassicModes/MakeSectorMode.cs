@@ -256,7 +256,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 						sd.Line.FlipSidedefs();
 					}
 				}
-
+				// Fix vertex slopes in Meridian 59 maps.
+				if (General.Map.MERIDIAN)
+				{
+					s.FixSlopeVertRefs();
+				}
 				General.Map.Data.UpdateUsedTextures();
 				General.Interface.SetCursor(Cursors.Default);
 				return s;

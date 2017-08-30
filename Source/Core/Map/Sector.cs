@@ -24,6 +24,7 @@ using System.Drawing;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.ObjectModel;
 using SlimDX;
+using System.Linq;
 
 #endregion
 
@@ -1156,10 +1157,245 @@ namespace CodeImp.DoomBuilder.Map
 			return "Sector " + listindex;
 #endif
 		}
-		
+
 		#endregion
 
 		#region ================== Changes
+
+		/// <summary>
+		/// Fixes broken sector slope vertex references, i.e. slopes that
+		/// reference vertexes from outside the sector for Meridian 59 rooms.
+		/// Returns whether changes were made.
+		/// NOTE: some bad refs were required since using integer height in
+		/// slopes might not give the desired slope angle with the available
+		/// vertexes. This fix still needs to be done, since copy/pasting 
+		/// slopes cannot work without all referenced vertexes being part of
+		/// the sloped sector. Really, this is a bad way to do slopes and
+		/// origin/angle/rot would be a lot cleaner and allow more flexibility.
+		/// </summary>
+		public bool FixSlopeVertRefs()
+		{
+			// True if we modify floor or ceil vertex positions (which are 3x Vector3D).
+			bool madeFloorChanges = false, madeCeilChanges = false;
+
+			// Get this sector's vertexes.
+			List<Vertex> vlist = GetVertexes();
+
+			// Must have 3 or more vertexes! Technically 2 or less is impossible but check anyway.
+			if (vlist.Count < 3)
+			{
+				General.ErrorLogger.Add(ErrorType.Error, "Sector " + Index + " has less than 3 vertexes!");
+
+				return false;
+			}
+
+			// Two cases for both floor and ceiling:
+			// Case 1: Slope can be fixed by using in-sector vertexes with the same height.
+			// Case 2: Need to recalculate all vertexes and heights using slope plane.
+
+			if (IsFloorSloped())
+			{
+				// Get a list of valid vertexes first to simplify later searching.
+				List<Vertex> floorverts = new List<Vertex>(3);
+				Vertex V;
+				foreach (Vector3D v3d in FloorSlopeVertexes)
+				{
+					V = vlist.FirstOrDefault(v => v.Position.x == v3d.x && v.Position.y == v3d.y);
+					if (V != null)
+						floorverts.Add(V);
+				}
+
+				// Create a copy of the vertex position list since we may modify it.
+				List<Vector3D> newfsv = new List<Vector3D>(FloorSlopeVertexes);
+
+				// Get original floor plane, to verify the slope details are the same later.
+				Geometry.Plane floorplane = GetFloorPlane(this);
+
+				int index = 0;
+				foreach (Vector3D v3d in FloorSlopeVertexes)
+				{
+					// Check if vertex is valid.
+					if (vlist.FirstOrDefault(v => v.Position.x == v3d.x && v.Position.y == v3d.y) == null)
+					{
+						// Will be making changes to the slope.
+						madeFloorChanges = true;
+
+						// True if we fix this vertex.
+						bool isFixed = false;
+
+						// Floor vertex not inside sector, replace with one that is.
+						foreach (Vertex vert in vlist)
+						{
+							// Exclude any vertex already in use.
+							if (floorverts.Contains(vert))
+								continue;
+							// Check for matching z.
+							if (Math.Round(floorplane.GetZ(vert.Position.x, vert.Position.y)) == Math.Round(v3d.z))
+							{
+								// Replace entry in new list.
+								newfsv[index] = new Vector3D(vert.Position.x, vert.Position.y, v3d.z);
+
+								// Add to list of vertexes in use.
+								floorverts.Add(vert);
+								isFixed = true;
+								break;
+							}
+						}
+
+						// Cannot fix easily - recalculate all vertexes and break out of loop.
+						if (!isFixed)
+						{
+							// Order sector vertex list by ascending vertex floor height.
+							vlist = vlist.OrderBy(v => floorplane.GetZ(v.Position.x, v.Position.y)).ToList();
+							int vCount = vlist.Count();
+
+							float height1 = (float)Math.Round(floorplane.GetZ(vlist[0].Position.x, vlist[0].Position.y));
+							float height2 = (float)Math.Round(floorplane.GetZ(vlist[1].Position.x, vlist[1].Position.y));
+							float height3 = (float)Math.Round(floorplane.GetZ(vlist[vCount - 1].Position.x, vlist[vCount - 1].Position.y));
+
+							newfsv[0] = new Vector3D(vlist[0].Position.x, vlist[0].Position.y, height1);
+							newfsv[2] = new Vector3D(vlist[vCount - 1].Position.x, vlist[vCount - 1].Position.y, height3);
+							if (height1 == height2)
+							{
+								// Use vertex 1, 2, and last.
+								newfsv[1] = new Vector3D(vlist[1].Position.x, vlist[1].Position.y, height2);
+							}
+							else
+							{
+								// Use vertex 1, last-1 and last.
+								height2 = (float)Math.Round(floorplane.GetZ(vlist[vCount - 2].Position.x, vlist[vCount - 2].Position.y));
+								newfsv[1] = new Vector3D(vlist[vCount - 2].Position.x, vlist[vCount - 2].Position.y, height2);
+
+							}
+
+							General.ErrorLogger.Add(ErrorType.Warning, "Recalculated floor slope vertex refs in sector " + Index);
+							// After recalculating, break out of the loop.
+							// This could be triggered at a point other than the last vertex.
+							break;
+						}
+					}
+					++index;
+					// Conditions met if we changed something and didn't have to recalculate.
+					if (index == 3 && madeFloorChanges)
+						General.ErrorLogger.Add(ErrorType.Warning, "Fixed floor slope vertex ref in sector " + Index);
+				}
+
+				if (madeFloorChanges)
+				{
+					FloorSlopeVertexes = newfsv;
+					// Recalculate slope.
+					CalculateMeridianSlope(true);
+
+					// Verify we got the same plane as before.
+					if (!floorplane.EpsilonEquals(GetFloorPlane(this)))
+					{
+						General.ErrorLogger.Add(ErrorType.Error, "Sector " + Index + " could not match floor slope to original!");
+					}
+				}
+			}
+
+			if (IsCeilSloped())
+			{
+				// Get a list of valid vertexes first to simplify later searching.
+				List<Vertex> ceilverts = new List<Vertex>(3);
+				Vertex V;
+				foreach (Vector3D v3d in CeilSlopeVertexes)
+				{
+					V = vlist.FirstOrDefault(v => v.Position.x == v3d.x && v.Position.y == v3d.y);
+					if (V != null)
+						ceilverts.Add(V);
+				}
+
+				// Create a copy of the vertex position list since we may modify it.
+				List<Vector3D> newcsv = new List<Vector3D>(CeilSlopeVertexes);
+
+				// Get original ceiling plane.
+				Geometry.Plane ceilplane = GetCeilingPlane(this);
+
+				int index = 0;
+				foreach (Vector3D v3d in CeilSlopeVertexes)
+				{
+					// Check if vertex is valid.
+					if (vlist.FirstOrDefault(v => v.Position.x == v3d.x && v.Position.y == v3d.y) == null)
+					{
+						// Will be making changes to the slope.
+						madeCeilChanges = true;
+
+						// True if we fix this vertex.
+						bool isFixed = false;
+
+						// Ceiling vertex not inside sector, replace with one that is.
+						foreach (Vertex vert in vlist)
+						{
+							// Exclude any vertex already in use.
+							if (ceilverts.Contains(vert))
+								continue;
+							// Check for matching z.
+							if (Math.Round(ceilplane.GetZ(vert.Position.x, vert.Position.y)) == Math.Round(v3d.z))
+							{
+								// Replace entry in new list.
+								newcsv[index] = new Vector3D(vert.Position.x, vert.Position.y, v3d.z);
+
+								// Add to list of vertexes in use.
+								ceilverts.Add(vert);
+								isFixed = true;
+								break;
+							}
+						}
+
+						// Cannot fix easily - recalculate all vertexes and break out of loop.
+						if (!isFixed)
+						{
+							// Order sector vertex list by ascending vertex ceiling height.
+							vlist = vlist.OrderBy(v => ceilplane.GetZ(v.Position.x, v.Position.y)).ToList();
+							int vCount = vlist.Count();
+
+							float height1 = (float)Math.Round(ceilplane.GetZ(vlist[0].Position.x, vlist[0].Position.y));
+							float height2 = (float)Math.Round(ceilplane.GetZ(vlist[1].Position.x, vlist[1].Position.y));
+							float height3 = (float)Math.Round(ceilplane.GetZ(vlist[vCount - 1].Position.x, vlist[vCount - 1].Position.y));
+
+							newcsv[0] = new Vector3D(vlist[0].Position.x, vlist[0].Position.y, height1);
+							newcsv[2] = new Vector3D(vlist[vCount - 1].Position.x, vlist[vCount - 1].Position.y, height3);
+							if (height1 == height2)
+							{
+								// Use vertex 1, 2, and last.
+								newcsv[1] = new Vector3D(vlist[1].Position.x, vlist[1].Position.y, height2);
+							}
+							else
+							{
+								// Use vertex 1, last-1 and last.
+								height2 = (float)Math.Round(ceilplane.GetZ(vlist[vCount - 2].Position.x, vlist[vCount - 2].Position.y));
+								newcsv[1] = new Vector3D(vlist[vCount - 2].Position.x, vlist[vCount - 2].Position.y, height2);
+
+							}
+
+							General.ErrorLogger.Add(ErrorType.Warning, "Recalculated ceil slope vertex refs in sector " + Index);
+							// After recalculating, break out of the loop.
+							// This could be triggered at a point other than the last vertex.
+							break;
+						}
+					}
+					++index;
+					// Conditions met if we changed something and didn't have to recalculate.
+					if (index == 3 && madeCeilChanges)
+						General.ErrorLogger.Add(ErrorType.Warning, "Fixed ceil slope vertex ref in sector " + Index);
+				}
+				if (madeCeilChanges)
+				{
+					CeilSlopeVertexes = newcsv;
+					// Recalculate slope.
+					CalculateMeridianSlope(false);
+
+					// Verify we got the same plane as before.
+					if (!ceilplane.EpsilonEquals(GetCeilingPlane(this)))
+					{
+						General.ErrorLogger.Add(ErrorType.Error, "Sector " + Index + " could not match ceiling slope to original!");
+					}
+				}
+			}
+
+			return madeFloorChanges | madeCeilChanges;
+		}
 
 		// Meridian specific version.
 		public void Update(int hfloor, int hceil, int offsetx, int offsety, string tfloor, string tceil,

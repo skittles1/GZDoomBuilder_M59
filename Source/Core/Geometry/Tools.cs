@@ -621,6 +621,11 @@ namespace CodeImp.DoomBuilder.Geometry
 					ls.Line.ApplySidedFlags();
 			}
 
+			// Fix vertex slopes in source sector for Meridian 59 maps.
+			if (General.Map.MERIDIAN && sourcesector != null)
+			{
+				sourcesector.FixSlopeVertRefs();
+			}
 			// Return the new sector
 			return newsector;
 		}
