@@ -831,6 +831,11 @@ namespace CodeImp.DoomBuilder.Map
 		{
 			List<Vertex> vl = new List<Vertex>();
 
+			if (Sidedefs == null)
+			{
+				return vl;
+			}
+
 			foreach (Sidedef s in Sidedefs)
 			{
 				if (vl.Count == 0)
@@ -1178,6 +1183,15 @@ namespace CodeImp.DoomBuilder.Map
 			// True if we modify floor or ceil vertex positions (which are 3x Vector3D).
 			bool madeFloorChanges = false, madeCeilChanges = false;
 
+			bool floorSloped = IsFloorSloped();
+			bool ceilSloped = IsCeilSloped();
+
+			// Return early if no slopes to handle.
+			if (!floorSloped && !ceilSloped)
+			{
+				return false;
+			}
+
 			// Get this sector's vertexes.
 			List<Vertex> vlist = GetVertexes();
 
@@ -1193,7 +1207,7 @@ namespace CodeImp.DoomBuilder.Map
 			// Case 1: Slope can be fixed by using in-sector vertexes with the same height.
 			// Case 2: Need to recalculate all vertexes and heights using slope plane.
 
-			if (IsFloorSloped())
+			if (floorSloped)
 			{
 				// Get a list of valid vertexes first to simplify later searching.
 				List<Vertex> floorverts = new List<Vertex>(3);
@@ -1294,7 +1308,7 @@ namespace CodeImp.DoomBuilder.Map
 				}
 			}
 
-			if (IsCeilSloped())
+			if (ceilSloped)
 			{
 				// Get a list of valid vertexes first to simplify later searching.
 				List<Vertex> ceilverts = new List<Vertex>(3);

@@ -368,9 +368,9 @@ namespace CodeImp.DoomBuilder.Geometry
 
 		public bool EpsilonEqual(Vector3D other)
 		{
-			if (Math.Abs(x - other.x) > 0.0001) return false;
-			if (Math.Abs(y - other.y) > 0.0001) return false;
-			if (Math.Abs(z - other.z) > 0.0001) return false;
+			if (Math.Abs(x - other.x) > 0.001) return false;
+			if (Math.Abs(y - other.y) > 0.001) return false;
+			if (Math.Abs(z - other.z) > 0.001) return false;
 			return true;
 		}
 		
