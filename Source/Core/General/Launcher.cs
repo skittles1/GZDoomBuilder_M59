@@ -26,6 +26,7 @@ using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Windows;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
@@ -266,6 +267,33 @@ namespace CodeImp.DoomBuilder
 			TestAtSkill(General.Map.ConfigSettings.TestSkill, true);
 		}
 		
+		private void SelectNoMove()
+		{
+			General.Map.Map.ClearAllSelected();
+
+			ICollection<Sector> list = General.Map.Map.Sectors;
+
+			// Go for all sectors
+			foreach (Sector s in list)
+			{
+				// Flag matches?
+				if (s.NoMove == true)
+				{
+					s.Selected = true;
+					foreach (Sidedef sd in s.Sidedefs)
+					{
+						bool front, back;
+						if (sd.Line.Front != null) front = sd.Line.Front.Sector.Selected; else front = false;
+						if (sd.Line.Back != null) back = sd.Line.Back.Sector.Selected; else back = false;
+						sd.Line.Selected = front | back;
+					}
+					//foreach (Sidedef sd in s.Sidedefs)
+					//	renderer.PlotLinedef(sd.Line, General.Colors.Selection);
+				}
+			}
+			General.Interface.RedrawDisplay();
+		}
+
 		// This saves the map to a temporary file and launches a test with the given skill
 		public void TestAtSkill(int skill) { TestAtSkill(skill, false); }
 		public void TestAtSkill(int skill, bool testfromcurrentposition)
@@ -277,6 +305,11 @@ namespace CodeImp.DoomBuilder
 			// Check if configuration is OK
 			if(string.IsNullOrEmpty(General.Map.ConfigSettings.TestProgram) || !File.Exists(General.Map.ConfigSettings.TestProgram))
 			{
+				if (General.Map.MERIDIAN)
+				{
+					SelectNoMove();
+					return;
+				}
 				//mxd. Let's be more precise
 				string message;
 				if(General.Map.ConfigSettings.TestProgram == "")
