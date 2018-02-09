@@ -100,6 +100,7 @@
     <Compile Include="FindReplace\FindReplaceObject.cs" />
     <Compile Include="FindReplace\FindReplaceType.cs" />
     <Compile Include="FindReplace\FindSectorNoMove.cs" />
+    <Compile Include="FindReplace\FindSidedefTag.cs" />
     <Compile Include="FindReplace\FindSectorTagRoo.cs" />
     <Compile Include="FindReplace\FindSectorTags.cs" />
     <Compile Include="General\Association.cs" />
