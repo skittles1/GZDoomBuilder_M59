@@ -59,7 +59,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
 		// Gravity
 		private Vector3D gravity;
-		private float cameraflooroffset = 41f;		// same as in doom
+		private float cameraflooroffset = 50f;		// same as in doom
 		private float cameraceilingoffset = 10f;
 		
 		// Object picking

@@ -17,7 +17,7 @@ namespace CodeImp.DoomBuilder.VisualModes
 		private const float ANGLE_FROM_MOUSE = 0.0001f;
 		public const float MAX_ANGLEZ_LOW = 91f / Angle2D.PIDEG;
 		public const float MAX_ANGLEZ_HIGH = (360f - 91f) / Angle2D.PIDEG;
-		public const float THING_Z_OFFSET = 41.0f;
+		public const float THING_Z_OFFSET = 50.0f;
 		
 		#endregion
 

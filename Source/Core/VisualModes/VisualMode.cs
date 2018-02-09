@@ -38,7 +38,8 @@ namespace CodeImp.DoomBuilder.VisualModes
 		#region ================== Constants
 
 		private const float MOVE_SPEED_MULTIPLIER = 0.001f;
-		
+        private const float CAMERA_HEIGHT = 50f;
+
 		#endregion
 
 		#region ================== Variables
@@ -191,10 +192,10 @@ namespace CodeImp.DoomBuilder.VisualModes
 					if(nearestsector != null)
 					{
 						int sectorheight = nearestsector.CeilHeight - nearestsector.FloorHeight;
-						if(sectorheight < 41)
+						if(sectorheight < CAMERA_HEIGHT)
 							posz = nearestsector.FloorHeight + Math.Max(16, sectorheight / 2);
-						else if(General.Map.VisualCamera.Position.z < nearestsector.FloorHeight + 41)
-							posz = nearestsector.FloorHeight + 41; // same as in doom
+						else if(General.Map.VisualCamera.Position.z < nearestsector.FloorHeight + CAMERA_HEIGHT)
+							posz = nearestsector.FloorHeight + CAMERA_HEIGHT; // same as in doom
 						else if(General.Map.VisualCamera.Position.z > nearestsector.CeilHeight)
 							posz = nearestsector.CeilHeight - 4;
 					}
@@ -312,7 +313,7 @@ namespace CodeImp.DoomBuilder.VisualModes
 				}
 
 				//41 = player's height in Doom. Is that so in all other games as well?
-				if(s.CeilHeight - s.FloorHeight < 41) 
+				if(s.CeilHeight - s.FloorHeight < CAMERA_HEIGHT) 
 				{
 					General.MainWindow.DisplayStatus(StatusType.Warning, "Can't test from current position: sector is too low!");
 					return false;
@@ -320,7 +321,7 @@ namespace CodeImp.DoomBuilder.VisualModes
 
 				//check camera Z
 				float pz = camPos.z - s.FloorHeight;
-				int ceilRel = s.CeilHeight - s.FloorHeight - 41; //relative ceiling height
+				int ceilRel = s.CeilHeight - s.FloorHeight - (int)CAMERA_HEIGHT; //relative ceiling height
 				if(pz > ceilRel) pz = ceilRel; //above ceiling?
 				else if(pz < 0) pz = 0; //below floor?
 
